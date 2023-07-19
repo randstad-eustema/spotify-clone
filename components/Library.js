@@ -11,11 +11,11 @@ export default function Library() {
   const uploadModal = useUploadModal();
 
   function onClick() {
-    // se l'utente non è loggato api la modale di autenticazione
+    // se l'utente non è loggato apri la modale di autenticazione
     if (!user) {
       authModal.onOpen();
     } else {
-      // altrimenti apri la modale per aggiugnere una canzone
+      // altrimenti apri la modale per aggiungere una canzone
       uploadModal.onOpen();
     }
   }
