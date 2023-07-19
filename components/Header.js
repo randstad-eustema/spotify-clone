@@ -8,15 +8,18 @@ import Button from "./Button";
 import NavButton from "./NavButton";
 import useAuthModal from "@/hooks/useAuthModal";
 import { useUser } from "@/providers/UserProvider";
+import { useRouter } from "next/navigation";
 
 export default function Header({ children }) {
   const authModal = useAuthModal();
   const supabase = useSupabaseClient();
   const { user } = useUser();
+  const router = useRouter();
 
   async function handleLogout() {
     const { error } = await supabase.auth.signOut();
     if (error) console.error(error);
+    router.refresh();
   }
 
   return (

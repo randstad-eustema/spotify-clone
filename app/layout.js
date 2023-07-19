@@ -7,6 +7,7 @@ import ModalProvider from "@/providers/ModalProvider";
 
 import Sidebar from "@/components/Sidebar";
 import AppContent from "@/components/AppContent";
+import { getSongsByUserId } from "@/services/songs";
 
 const font = Figtree({ subsets: ["latin"] });
 
@@ -15,14 +16,16 @@ export const metadata = {
   description: "Spotify clone using nextjs",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const userSongs = await getSongsByUserId();
+
   return (
     <html lang="en">
       <body className={`${font.className} flex p-2 gap-2`}>
         <SupabaseProvider>
           <UserProvider>
             <ModalProvider />
-            <Sidebar></Sidebar>
+            <Sidebar songs={userSongs}></Sidebar>
             <AppContent>{children}</AppContent>
           </UserProvider>
         </SupabaseProvider>

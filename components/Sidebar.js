@@ -10,7 +10,7 @@ import Box from "./Box";
 import SidebarItem from "./SidebarItem";
 import Library from "./Library";
 
-export default function Sidebar() {
+export default function Sidebar({ songs }) {
   const pathname = usePathname();
 
   const nav = useMemo(
@@ -39,7 +39,7 @@ export default function Sidebar() {
         ))}
       </Box>
       <Box className="p-5 grow">
-        <Library />
+        <Library songs={songs} />
       </Box>
     </aside>
   );
