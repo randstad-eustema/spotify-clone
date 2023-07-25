@@ -11,3 +11,13 @@ export function loadImage(imagePath) {
 
   return data.publicUrl;
 }
+
+export function loadSong(songPath) {
+  if (!songPath) return;
+
+  const supabaseClient = useSupabaseClient();
+
+  const { data } = supabaseClient.storage.from("songs").getPublicUrl(songPath);
+
+  return data.publicUrl;
+}

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { loadImage } from "@/services/storage";
 import PlayButton from "./PlayButton";
 
-export default function SongItem({ data }) {
+export default function SongItem({ data, onClick }) {
   const imageUrl = loadImage(data.image_path);
 
   return (
@@ -18,7 +18,10 @@ export default function SongItem({ data }) {
           {data.author}
         </p>
       </div>
-      <div className="absolute bottom-24 right-5">
+      <div
+        className="absolute bottom-24 right-5"
+        onClick={() => onClick(data.id)}
+      >
         <PlayButton />
       </div>
     </div>
