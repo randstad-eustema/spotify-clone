@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-import { loadImage } from "@/services/images";
+import { loadImage } from "@/services/storage";
 
 export default function MediaItem({ data }) {
   const image = loadImage(data.image_path);

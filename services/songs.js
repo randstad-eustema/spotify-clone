@@ -40,3 +40,28 @@ export async function getSongsByUserId() {
 
   return data || [];
 }
+
+export async function getSongsByTitle(title) {
+  const supabase = createServerComponentClient({
+    cookies: cookies,
+  });
+
+  // se non c'è il titolo allora recupero tutte le canzoni
+  if (!title) {
+    const allSongs = await getSongs();
+    return allSongs;
+  }
+
+  // recupero le canzoni in base al titolo
+  const { data, error } = await supabase
+    .from("songs")
+    .select("*")
+    .ilike("title", `%${title}%`)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.log(error.message);
+  }
+
+  return data || [];
+}

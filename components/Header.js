@@ -35,11 +35,17 @@ export default function Header({ children }) {
           </NavButton>
         </div>
         <div className="flex md:hidden gap-x-2 items-center">
-          <NavButton className="bg-white text-black">
+          <NavButton
+            onClick={() => router.push("/")}
+            className="bg-white text-black"
+          >
             <HiHome size={20} />
           </NavButton>
 
-          <NavButton className="bg-white text-black">
+          <NavButton
+            onClick={() => router.push("/search")}
+            className="bg-white text-black"
+          >
             <BiSearch size={20} />
           </NavButton>
         </div>

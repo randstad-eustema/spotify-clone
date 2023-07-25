@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 
-import { loadImage } from "@/services/images";
+import { loadImage } from "@/services/storage";
 import PlayButton from "./PlayButton";
 
 export default function SongItem({ data }) {
