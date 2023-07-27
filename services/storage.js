@@ -1,9 +1,9 @@
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 export function loadImage(imagePath) {
-  if (!imagePath) return;
-
   const supabaseClient = useSupabaseClient();
+
+  if (!imagePath) return;
 
   const { data } = supabaseClient.storage
     .from("images")
@@ -13,9 +13,9 @@ export function loadImage(imagePath) {
 }
 
 export function loadSong(songPath) {
-  if (!songPath) return;
-
   const supabaseClient = useSupabaseClient();
+
+  if (!songPath) return;
 
   const { data } = supabaseClient.storage.from("songs").getPublicUrl(songPath);
 
