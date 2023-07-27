@@ -65,3 +65,39 @@ export async function getSongsByTitle(title) {
 
   return data || [];
 }
+
+export async function getLikedSongs() {
+  const supabase = createServerComponentClient({
+    cookies: cookies,
+  });
+
+  const { data: sessionData, error: sessionError } =
+    await supabase.auth.getSession();
+
+  if (sessionError) {
+    console.log(sessionError);
+    return [];
+  }
+
+  let ids = [];
+
+  try {
+    const resp = await fetch(
+      `http://localhost:3001/api/readAllByUserId/${sessionData.session?.user.id}`
+    );
+    const data = await resp.json();
+    if (resp.ok && data) {
+      ids = data.map((elm) => elm.song_id);
+    }
+  } catch (error) {}
+
+  const { data, error } = await supabase
+    .from("songs")
+    .select("*")
+    .in("id", ids)
+    .order("created_at", { ascending: false });
+
+  if (error) console.log(error);
+
+  return data || [];
+}

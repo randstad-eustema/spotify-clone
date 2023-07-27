@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 import { HiHome } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
+import { AiFillHeart } from "react-icons/ai";
 
 import Box from "./Box";
 import SidebarItem from "./SidebarItem";
@@ -19,13 +20,19 @@ export default function Sidebar({ songs }) {
         Icon: HiHome,
         label: "Home",
         href: "/",
-        active: pathname !== "/search",
+        active: pathname === "/",
       },
       {
         Icon: BiSearch,
         label: "Search",
         href: "/search",
         active: pathname === "/search",
+      },
+      {
+        Icon: AiFillHeart,
+        label: "Liked",
+        href: "/liked",
+        active: pathname === "/liked",
       },
     ],
     [pathname]
