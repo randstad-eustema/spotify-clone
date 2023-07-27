@@ -7,32 +7,55 @@ import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
 
+import usePlayer from "@/hooks/usePlayer";
 import MediaItem from "./MediaItem";
 import Slider from "./Slider";
 
 export default function PlayerContent({ song, songUrl }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.2);
+  const player = usePlayer();
 
   const IconPlay = isPlaying ? BsPauseFill : BsPlayFill;
   const IconVolume = volume ? HiSpeakerWave : HiSpeakerXMark;
 
-  const [play, { pause }] = useSound(songUrl, {
+  const [play, { pause, sound }] = useSound(songUrl, {
     volume: volume,
     onplay: () => setIsPlaying(true),
     onend: () => {
-      setIsPlaying(false);
-      // TODO: canzone successiva
+      onPlayNext();
     },
     onpause: () => setIsPlaying(false),
     format: ["mp3"],
   });
 
-  // TODO: Al caricamento parte la canzone
-  // useEffect(() => {
-  //   console.log(songUrl, play);
-  //   play();
-  // }, []);
+  useEffect(() => {
+    sound?.play();
+
+    return () => {
+      sound?.unload();
+    };
+  }, [sound]);
+
+  function onPlayNext() {
+    if (player.ids.length === 0) return null;
+    const currentIndex = player.ids.findIndex((id) => player.activeId === id);
+    const nextSong = player.ids[currentIndex + 1];
+
+    if (!nextSong) return player.setId(player.ids[0]);
+
+    player.setId(nextSong);
+  }
+
+  function onPlayPrevious() {
+    if (player.ids.length === 0) return null;
+    const currentIndex = player.ids.findIndex((id) => player.activeId === id);
+    const prevSong = player.ids[currentIndex - 1];
+
+    if (!prevSong) return player.setId(player.ids[player.ids.length - 1]);
+
+    player.setId(prevSong);
+  }
 
   function toggleMute() {
     if (volume === 0) {
@@ -103,6 +126,7 @@ export default function PlayerContent({ song, songUrl }) {
               transition
             "
           size={30}
+          onClick={onPlayPrevious}
         />
         <div
           className="
@@ -127,6 +151,7 @@ export default function PlayerContent({ song, songUrl }) {
               transition
             "
           size={30}
+          onClick={onPlayNext}
         />
       </div>
       <div className="hidden md:flex w-full justify-end pr-2">

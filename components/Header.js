@@ -3,15 +3,17 @@ import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
 import { BiSearch } from "react-icons/bi";
 import { HiHome } from "react-icons/hi";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/navigation";
 
 import Button from "./Button";
 import NavButton from "./NavButton";
 import useAuthModal from "@/hooks/useAuthModal";
 import { useUser } from "@/providers/UserProvider";
-import { useRouter } from "next/navigation";
+import usePlayer from "@/hooks/usePlayer";
 
 export default function Header({ children }) {
   const authModal = useAuthModal();
+  const player = usePlayer();
   const supabase = useSupabaseClient();
   const { user } = useUser();
   const router = useRouter();
@@ -19,6 +21,7 @@ export default function Header({ children }) {
   async function handleLogout() {
     const { error } = await supabase.auth.signOut();
     if (error) console.error(error);
+    player.reset();
     router.refresh();
   }
 

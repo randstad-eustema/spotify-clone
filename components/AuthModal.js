@@ -6,9 +6,11 @@ import { useEffect } from "react";
 import Modal from "./Modal";
 import useAuthModal from "@/hooks/useAuthModal";
 import { useUser } from "@/providers/UserProvider";
+import { useRouter } from "next/navigation";
 
 export default function AuthModal() {
   const supabaseClient = useSupabaseClient();
+  const router = useRouter();
   const { onClose, isOpen } = useAuthModal();
   const { user } = useUser();
 
@@ -21,6 +23,7 @@ export default function AuthModal() {
   useEffect(() => {
     if (user) {
       onClose();
+      router.refresh();
     }
   }, [user, onClose]);
 

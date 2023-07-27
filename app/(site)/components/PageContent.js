@@ -3,7 +3,7 @@ import SongItem from "@/components/SongItem";
 import useOnPlay from "@/hooks/useOnPlay";
 
 export default function PageContent({ songs }) {
-  const onPlay = useOnPlay();
+  const onPlay = useOnPlay(songs);
   if (songs.length === 0) {
     return <h2>Non ci sono canzoni</h2>;
   }
